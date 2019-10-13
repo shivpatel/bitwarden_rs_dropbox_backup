@@ -5,6 +5,7 @@ Run this image alongside your bitwarden_rs container for automated nightly (1AM)
 
 ## How to Use
 - It's highly recommend you run via the `docker-compose.yml` provided.
+- Pre-built images are available at `shivpatel/bitwarden_rs_dropbox_backup`.
 - You only need to volume mount the `.sqlite3` file your bitwarden_rs container uses.
 - Pick a secure `BACKUP_ENCRYPTION_KEY`. This is for added protection and will be needed when decrypting your backups.
 - A `DROPBOX_ACCESS_TOKEN` access token will be needed to upload to your Dropbox account.

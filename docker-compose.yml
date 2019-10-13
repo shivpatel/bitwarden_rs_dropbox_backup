@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   bitwarden_dropbox_backup:
-    build: .
+    image: shivpatel/bitwarden_rs_dropbox_backup:latest
     restart: always
     volumes:
       - ./db.sqlite3:/db.sqlite3
