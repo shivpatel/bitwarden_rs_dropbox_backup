@@ -1,6 +1,8 @@
 # BitWarden_RS Dropbox Nightly Backup
 Run this image alongside your bitwarden_rs container for automated nightly (1AM UTC) backups of your BitWarden database to your Dropbox account. Backups are encrypted (OpenSSL AES256) and zipped (`.tar.gz`) with a passphrase of your choice.
 
+**IMPORTANT: Make sure you have at least one personal device (e.g. laptop) connected to Dropbox and syncing files locally. This will save you in the event Bitwarden goes down and your Dropbox account login was stored in Bitwarden!!!**
+
 **Note:** Encrypting BitWarden backups is not required since the data is already encrypted with user master passwords. We've added this for good practice and added obfuscation should your Dropbox account get compromised.
 
 ## How to Use
