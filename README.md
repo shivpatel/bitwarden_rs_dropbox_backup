@@ -8,18 +8,28 @@ Run this image alongside your bitwarden_rs container for automated nightly (1AM 
 ## How to Use
 - It's highly recommend you run via the `docker-compose.yml` provided.
 - Pre-built images are available at `shivpatel/bitwarden_rs_dropbox_backup`.
-- You only need to volume mount the `.sqlite3` file your bitwarden_rs container uses.
+- Volume mount the `.sqlite3` file your bitwarden_rs container uses.
+- Volume mount the `/config` folder that will contain the Dropbox Uploader configuration (Dropbox app key, secret and refresh token). See Initial setup for more details.
 - Pick a secure `BACKUP_ENCRYPTION_KEY`. This is for added protection and will be needed when decrypting your backups.
-- A `DROPBOX_ACCESS_TOKEN` access token will be needed to upload to your Dropbox account.
-- To run backups on a different interval/time, modify the `Dockerfile` and build a custom image.
+- Follow the steps below to grant upload access to your Dropbox account.
 - This image will always run an extra backup on container start (regardless of cron interval) to ensure your setup is working.
+- Interactive mode (see [Initial setup](#Initial-setup)) is only needed for the first run to create the configuration file. If you re-create the container with the same `/config` volume mount, the container will not need to be run in interactive mode. 
 
-### Generating Dropbox Access Token
-1. Visit: https://www.dropbox.com/developers/apps
-2. Click on "Create App", then select "Dropbox API App".
-4. Complete configuration and pick an app name (e.g. MyVaultBackups).
-6. Once your app is created, click the Generate button under 'Generated access token'.
-7. This token should be provided to the container as `DROPBOX_ACCESS_TOKEN` env var.
+### Initial setup
+1. Open the following URL in your Browser, and log in using your account: https://www.dropbox.com/developers/apps
+2. Click on "Create App", then select "Choose an API: Scoped Access"
+3. Choose the type of access you need: "App folder"
+4. Enter the "App Name" that you prefer (e.g. MyVaultBackups); must be unique
+5. Now, click on the "Create App" button.
+6. Now the new configuration is opened, switch to tab "permissions" and check "files.metadata.read/write" and "files.content.read/write"
+7. Now, click on the "Submit" button.
+8. Once your app is created, you can find your "App key" and "App secret" in the "Settings" tab.
+9. Run the container in interactive mode (`docker run -it <...>`) to create the configuration. 
+    
+    If you are using a GUI like Portainer to create the container, you will need to attach to the container. The first input to provide once attached is the App key.
+
+10. Follow the steps in the terminal.
+11. Press `Ctrl+P` followed by `Ctrl+Q` to exit interactive mode / detach and keep the container running.
 
 ### Decrypting Backup
 `openssl enc -d -aes256 -salt -pbkdf2 -in mybackup.tar.gz | tar xz -C my-folder`
