@@ -10,7 +10,7 @@ sqlite3 /db.sqlite3 ".backup '/tmp/db.sqlite3'"
 tar -czf - /tmp/db.sqlite3 | openssl enc -e -aes256 -salt -pbkdf2 -pass pass:${BACKUP_ENCRYPTION_KEY} -out /tmp/${BACKUP_FILE}.tar.gz
 
 # upload encrypted tar to dropbox
-/dropbox_uploader.sh upload /tmp/${BACKUP_FILE}.tar.gz /${BACKUP_FILE}.tar.gz
+/dropbox_uploader.sh -f /config/.dropbox_uploader upload /tmp/${BACKUP_FILE}.tar.gz /${BACKUP_FILE}.tar.gz
 
 # cleanup tmp folder
 rm -rf /tmp/*
