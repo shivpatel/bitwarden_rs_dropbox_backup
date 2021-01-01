@@ -1,5 +1,5 @@
 # BitWarden_RS Dropbox Nightly Backup
-Run this image alongside your bitwarden_rs container for automated nightly (1AM UTC) backups of your BitWarden database to your Dropbox account. Backups are encrypted (OpenSSL AES256) and zipped (`.tar.gz`) with a passphrase of your choice.
+Run this image alongside your bitwarden_rs container for automated nightly (1AM UTC) backups of your BitWarden database and your attachments to your Dropbox account. Backups are encrypted (OpenSSL AES256) and zipped (`.tar.gz`) with a passphrase of your choice.
 
 **IMPORTANT: Make sure you have at least one personal device (e.g. laptop) connected to Dropbox and syncing files locally. This will save you in the event Bitwarden goes down and your Dropbox account login was stored in Bitwarden!!!**
 
@@ -8,12 +8,12 @@ Run this image alongside your bitwarden_rs container for automated nightly (1AM 
 ## How to Use
 - It's highly recommend you run via the `docker-compose.yml` provided.
 - Pre-built images are available at `shivpatel/bitwarden_rs_dropbox_backup`.
-- Volume mount the `.sqlite3` file your bitwarden_rs container uses.
-- Volume mount the `/config` folder that will contain the Dropbox Uploader configuration (Dropbox app key, secret and refresh token). See Initial setup for more details.
+- Volume mount the `./bwdata` folder your bitwarden_rs container uses.
+- Volume mount the `./config` folder that will contain the Dropbox Uploader configuration (Dropbox app key, secret and refresh token). See Initial setup for more details.
 - Pick a secure `BACKUP_ENCRYPTION_KEY`. This is for added protection and will be needed when decrypting your backups.
 - Follow the steps below to grant upload access to your Dropbox account.
 - This image will always run an extra backup on container start (regardless of cron interval) to ensure your setup is working.
-- Interactive mode (see [Initial setup](#Initial-setup)) is only needed for the first run to create the configuration file. If you re-create the container with the same `/config` volume mount, the container will not need to be run in interactive mode. 
+- Interactive mode (see [Initial setup](#Initial-setup)) is only needed for the first run to create the configuration file. If you re-create the container with the same `./config` volume mount, the container will not need to be run in interactive mode. 
 
 ### Initial setup
 1. Open the following URL in your Browser, and log in using your account: https://www.dropbox.com/developers/apps
@@ -32,7 +32,7 @@ Run this image alongside your bitwarden_rs container for automated nightly (1AM 
 11. Press `Ctrl+P` followed by `Ctrl+Q` to exit interactive mode / detach and keep the container running.
 
 ### Decrypting Backup
-`openssl enc -d -aes256 -salt -pbkdf2 -in mybackup.tar.gz | tar xz -C my-folder`
+`openssl enc -d -aes256 -salt -pbkdf2 -in mybackup.tar.gz | tar xz --strip-components=1 -C my-folder`
 
 ### Restoring Backup to BitWarden_RS
-Volume mount the decrypted `.sqlite3` file to your bitwarden_rs container. Done!
+Volume mount the decrypted `./bwdata` folder to your bitwarden_rs container. Done!
