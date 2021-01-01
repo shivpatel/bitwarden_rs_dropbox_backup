@@ -4,7 +4,7 @@ services:
     image: shivpatel/bitwarden_rs_dropbox_backup:latest
     restart: always
     volumes:
-      - ./db.sqlite3:/db.sqlite3
-      - /config:/config
+      - ./bwdata:/data 
+      - ./config:/config
     environment:
       - BACKUP_ENCRYPTION_KEY=xxx
