@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.2'
 services:
   bitwarden_dropbox_backup:
     image: shivpatel/bitwarden_rs_dropbox_backup:latest
@@ -8,3 +8,4 @@ services:
       - ./config:/config
     environment:
       - BACKUP_ENCRYPTION_KEY=xxx
+      #- DELETE_AFTER=10

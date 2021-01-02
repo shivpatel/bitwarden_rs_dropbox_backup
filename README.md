@@ -14,6 +14,7 @@ Run this image alongside your bitwarden_rs container for automated nightly (1AM 
 - Follow the steps below to grant upload access to your Dropbox account.
 - This image will always run an extra backup on container start (regardless of cron interval) to ensure your setup is working.
 - Interactive mode (see [Initial setup](#Initial-setup)) is only needed for the first run to create the configuration file. If you re-create the container with the same `./config` volume mount, the container will not need to be run in interactive mode. 
+- Supports an optional `DELETE_AFTER` environment variable which is used to delete old backups after X many days. This job is executed with each backup cron job run.
 
 ### Initial setup
 1. Open the following URL in your Browser, and log in using your account: https://www.dropbox.com/developers/apps
