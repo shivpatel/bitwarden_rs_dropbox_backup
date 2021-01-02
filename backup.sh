@@ -14,3 +14,9 @@ tar -czf - /tmp/db.sqlite3 /data/attachments | openssl enc -e -aes256 -salt -pbk
 
 # cleanup tmp folder
 rm -rf /tmp/*
+
+# delete older backups if variable is set & greater than 0
+if [ ! -z $DELETE_AFTER ] && [ $DELETE_AFTER -gt 0 ]
+then
+  /deleteold.sh
+fi
