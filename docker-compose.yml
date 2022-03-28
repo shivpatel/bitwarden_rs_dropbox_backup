@@ -9,3 +9,4 @@ services:
     environment:
       - BACKUP_ENCRYPTION_KEY=xxx
       #- DELETE_AFTER=10
+      #- TZ=Americas/New_York #set local timezone using TZ database name standard as seen - https://manpages.ubuntu.com/manpages/bionic/man3/DateTime::TimeZone::Catalog.3pm.html

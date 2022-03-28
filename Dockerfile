@@ -1,15 +1,22 @@
 FROM alpine:latest
 
+# set TZ default if not defined in ENVs
+ENV TZ=UTC
+
 # install sqlite, curl, bash (for script)
 RUN apk add --no-cache \
     sqlite \
     curl \
     bash \
+    tzdata \
     openssl
 
 # install dropbox uploader script
 RUN curl "https://raw.githubusercontent.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh" -o dropbox_uploader.sh && \
     chmod +x dropbox_uploader.sh
+
+# set timezone from ENVs
+RUN export TZ=/usr/share/zoneinfo/${TZ}
 
 # copy backup script to /
 COPY backup.sh /
